@@ -1,6 +1,6 @@
-import { DataType, DataTypes, Model } from "sequelize";
+import { DataTypes, Model } from "sequelize";
 import database from "../databases/config";
-
+import createdFood from "./createdFood";
 
 class User extends Model{
     public id !: number
@@ -11,6 +11,7 @@ class User extends Model{
     public password !: string
     public gender!:string
     public age!:number
+    public streak!: number 
 
     public phone_number?:string
     
@@ -74,10 +75,17 @@ User.init(
             type:DataTypes.DATE,
             allowNull:true,
         },
+        streak:{
+            type:DataTypes.INTEGER,
+            allowNull:true,
+        },
     }, {
         sequelize: database,
         modelName: 'user',
     }
 )
+
+
+User.hasMany(createdFood, { foreignKey: 'userId', onDelete: 'CASCADE' })
 
 export default User
